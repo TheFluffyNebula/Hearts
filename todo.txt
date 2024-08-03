@@ -1,12 +1,26 @@
 client side:
-replace filler usernames (player 1-4) with state so it can updated
-deal with the way Hand is initialized
-get the cards to show up in the card slots
-be able to deal a deck of cards (slice into 4), make sure it works locally
+replace filler usernames (player 1-4) with state so they can updated
+replace pt values with state so they can be updated
+
 
 server side:
 know when there are 4 people in the server (start game)
+be able to deal a deck of cards (slice into 4)
+turn based element
 
+gameplay elements ideas:
+Everyone dealt 13 cards -- JS shuffle algorithm already obtained
+slicing into 4 regions (0, 13), (13, 26), (26, 39), (39, 52) that gets passed into setHand
+
+2 of clubs played automatically -- server-side logic, turns go in order
+everyone has to play the same suit if they have it -- server-side logic
+determine winner/how many pts they get
+
+breaking into hearts: server-side variable, js filler
+
+pt counts: displayed on React side, kept track of by server
 
 extra stuff (low prio or later):
-
+sleep for 1s after last card played, display who won the trick
+shooting the moon
+passing 3 cards

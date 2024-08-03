@@ -5,19 +5,19 @@ const Scoreboard = () => {
         <div className="scoreboard">
             <div className="player">
                 <h3>Player 1</h3>
-                <p>Score: 0</p>
+                <p>Points: 0</p>
             </div>
             <div className="player">
                 <h3>Player 2</h3>
-                <p>Score: 0</p>
+                <p>Points: 0</p>
             </div>
             <div className="player">
                 <h3>Player 3</h3>
-                <p>Score: 0</p>
+                <p>Points: 0</p>
             </div>
             <div className="player">
                 <h3>Player 4</h3>
-                <p>Score: 0</p>
+                <p>Points: 0</p>
             </div>
         </div>
     );
