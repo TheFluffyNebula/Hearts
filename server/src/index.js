@@ -1,21 +1,23 @@
 import express from 'express';
 import http from 'http';
 import { Server as SocketIO } from 'socket.io';
+import roomRoutes from './routes/roomRoutes.js';
+import roomSockets from './sockets/roomSockets.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
+
 const app = express();
+app.use(express.json());
+
 const server = http.createServer(app);
 const io = new SocketIO(server);
 
-// Example Socket.IO connection handler
-io.on('connection', (socket) => {
-  console.log('A user connected');
+// Use routes
+app.use('/api/rooms', roomRoutes);
 
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-});
+// Setup Socket.IO
+roomSockets(io);
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
