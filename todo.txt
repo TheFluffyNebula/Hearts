@@ -1,5 +1,6 @@
 client side:
 Card representation
+deal with the way Hand is initialized
 get the cards to show up in the card slots
 be able to deal a deck of cards (slice into 4), make sure it works locally
 

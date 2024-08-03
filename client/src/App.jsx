@@ -3,7 +3,9 @@
 import React from 'react';
 import CenterCards from './components/CenterCards';
 import Hand from './components/Hand';
+import Card from './components/Card';
 
+// const SUITS = ["♠", "♣", "♥", "♦"]
 function App() {
   return (
     // <h1>Hi!</h1>

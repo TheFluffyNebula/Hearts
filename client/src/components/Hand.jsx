@@ -1,13 +1,21 @@
 // Hand.jsx
 import React from 'react';
+import { useState } from 'react';
 import CardSlot from './CardSlot';
 
 function Hand() {
-  // Assuming we have 13 cards in hand
+  // Initialize the hand with 13 slots, with the first card as the 3 of Hearts
+  const sampleArray = []
+  // sampleArray.push({ rank: "3", suit: "♥" });
+  for (let i = 0; i < 13; i++) {
+    sampleArray.push(null)
+  }
+  const [hand, setHand] = useState(sampleArray);
+
   return (
     <div className="hand">
-      {Array.from({ length: 13 }).map((_, index) => (
-        <CardSlot key={index} />
+      {hand.map((card, index) => (
+        <CardSlot key={index} card={card} />
       ))}
     </div>
   );
