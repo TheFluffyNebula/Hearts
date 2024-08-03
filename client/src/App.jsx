@@ -3,7 +3,7 @@
 import React from 'react';
 import CenterCards from './components/CenterCards';
 import Hand from './components/Hand';
-import Card from './components/Card';
+import Scoreboard from './components/Scoreboard';
 
 // const SUITS = ["♠", "♣", "♥", "♦"]
 function App() {
@@ -12,6 +12,7 @@ function App() {
     <div className="app">
       <CenterCards />
       <Hand />
+      <Scoreboard />
     </div>
   );
 }

@@ -20,6 +20,12 @@
   width: 100%;
 }
 
+.scoreboard {
+  position: absolute;
+  top: 5%;
+  right: 10%;
+}
+
 .card-slot {
   width: 100px;
   height: 140px;

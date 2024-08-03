@@ -1,8 +1,12 @@
 client side:
-Card representation
+replace filler usernames (player 1-4) with state so it can updated
 deal with the way Hand is initialized
 get the cards to show up in the card slots
 be able to deal a deck of cards (slice into 4), make sure it works locally
 
 server side:
 know when there are 4 people in the server (start game)
+
+
+extra stuff (low prio or later):
+
