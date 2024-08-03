@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "npx mocha test/socket.test.js"
+    "test": "npx mocha test"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
   "devDependencies": {
     "chai": "^5.1.1",
     "mocha": "^10.7.0",
-    "socket.io-client": "^4.7.5"
+    "socket.io-client": "^4.7.5",
+    "supertest": "^7.0.0"
   }
 }
