@@ -6,11 +6,11 @@ import Hand from './components/Hand';
 
 function App() {
   return (
-    <></>
-    // <div className="app">
-    //   <CenterCards />
-    //   <Hand />
-    // </div>
+    // <h1>Hi!</h1>
+    <div className="app">
+      <CenterCards />
+      <Hand />
+    </div>
   );
 }
 
