@@ -1,4 +1,3 @@
-// src/controllers/roomController.js
 import { generateRoomId, addRoom, addPlayerToRoom, removePlayerFromRoom, getRoom } from '../utils/roomUtils.js';
 
 const createRoom = (req, res) => {
@@ -23,6 +22,7 @@ const joinRoom = (req, res) => {
   }
 
   res.status(200).json({ success: true });
+  req.io.to(roomId).emit('playerJoined', { username });
 };
 
 const leaveRoom = (req, res) => {
@@ -36,6 +36,7 @@ const leaveRoom = (req, res) => {
   }
 
   res.status(200).json({ success: true });
+  req.io.to(roomId).emit('playerLeft', { username });
 };
 
 const startGame = (req, res) => {
@@ -55,6 +56,7 @@ const startGame = (req, res) => {
 
   room.gameStatus = 'started';
   res.status(200).json({ success: true });
+  req.io.to(roomId).emit('gameStarted');
 };
 
 export { createRoom, joinRoom, leaveRoom, startGame };

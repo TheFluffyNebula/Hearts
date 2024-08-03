@@ -1,4 +1,3 @@
-// src/routes/roomRoutes.js
 import express from 'express';
 import { createRoom, joinRoom, leaveRoom, startGame } from '../controllers/roomController.js';
 

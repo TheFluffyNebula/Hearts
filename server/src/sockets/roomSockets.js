@@ -1,4 +1,4 @@
-const roomSockets = (io) => {
+const setupSocket = (io) => {
     io.on('connection', (socket) => {
       console.log('A user connected');
   
@@ -8,5 +8,5 @@ const roomSockets = (io) => {
     });
   };
   
-  export default roomSockets;
+  export { setupSocket };
   

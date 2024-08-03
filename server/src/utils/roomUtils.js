@@ -1,4 +1,3 @@
-// src/utils/roomUtils.js
 const rooms = new Map(); // Map to store rooms with roomId as key
 
 const generateRoomId = () => Math.random().toString(36).substring(2, 9);
