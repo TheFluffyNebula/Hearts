@@ -1,8 +1,8 @@
-import express from 'express';
-import http from 'http';
-import { Server } from 'socket.io';
-import roomRoutes from './routes/roomRoutes.js';
-import roomSockets from './sockets/roomSockets.js';
+import express from "express";
+import http from "http";
+import { Server } from "socket.io";
+import roomRoutes from "./routes/roomRoutes.js";
+import roomSockets from "./sockets/roomSockets.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -13,7 +13,7 @@ app.use((req, res, next) => {
   req.io = io;
   next();
 });
-app.use('/api/rooms', roomRoutes);
+app.use("/api/rooms", roomRoutes);
 
 roomSockets(io);
 
