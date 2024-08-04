@@ -1,11 +1,11 @@
-import React from 'react';
-import { useState } from 'react';
-import CardSlot from './CardSlot';
+import React from "react";
+import { useState } from "react";
+import CardSlot from "./CardSlot";
 
 function CenterCards() {
-  const initArray = []
+  const initArray = [];
   for (let i = 0; i < 4; i++) {
-    initArray.push(null)
+    initArray.push(null);
   }
   const [hand, setHand] = useState(initArray);
 

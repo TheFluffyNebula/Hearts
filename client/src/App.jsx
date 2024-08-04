@@ -1,9 +1,9 @@
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
-import React from 'react';
-import CenterCards from './components/CenterCards';
-import Hand from './components/Hand';
-import Scoreboard from './components/Scoreboard';
+import React from "react";
+import CenterCards from "./components/CenterCards";
+import Hand from "./components/Hand";
+import Scoreboard from "./components/Scoreboard";
 
 // const SUITS = ["♠", "♣", "♥", "♦"]
 function App() {
