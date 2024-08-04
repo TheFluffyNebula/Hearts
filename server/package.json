@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "test": "npx mocha test"
   },
   "keywords": [],
@@ -13,12 +14,14 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "socket.io": "^4.7.5"
+    "socket.io": "^4.7.5",
+    "uuid": "^10.0.0"
   },
   "type": "module",
   "devDependencies": {
     "chai": "^5.1.1",
     "mocha": "^10.7.0",
+    "nodemon": "^3.1.4",
     "socket.io-client": "^4.7.5",
     "supertest": "^7.0.0"
   }

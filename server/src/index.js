@@ -2,27 +2,20 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import roomRoutes from './routes/roomRoutes.js';
-import { setupSocket } from './sockets/roomSockets.js';
+import roomSockets from './sockets/roomSockets.js';
 
 const app = express();
-app.use(express.json());
-app.use((req, res, next) => {
-    req.io = io;
-    next();
-  });
-  
-
-// Setup HTTP server
 const server = http.createServer(app);
-
-// Setup Socket.IO
 const io = new Server(server);
 
-// Setup socket events
-setupSocket(io);
-
-// Setup routes
+app.use(express.json());
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
 app.use('/api/rooms', roomRoutes);
+
+roomSockets(io);
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
