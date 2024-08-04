@@ -1,7 +1,4 @@
 client side:
-replace filler usernames (player 1-4) with state so they can updated
-replace pt values with state so they can be updated
-
 
 server side:
 know when there are 4 people in the server (start game)

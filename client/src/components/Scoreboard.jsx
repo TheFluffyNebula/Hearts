@@ -1,26 +1,24 @@
 import React from 'react';
+import { useState } from 'react';
 
-const Scoreboard = () => {
+function Scoreboard() {
+    // Initialize default player names and pt values
+    const initPlayers = ["Player 1", "Player 2", "Player 3", "Player 4"];
+    const initPts = [0, 0, 0, 0];
+    const [players, setPlayers] = useState(initPlayers);
+    const [pts, setPts] = useState(initPts);
+  
     return (
-        <div className="scoreboard">
-            <div className="player">
-                <h3>Player 1</h3>
-                <p>Points: 0</p>
-            </div>
-            <div className="player">
-                <h3>Player 2</h3>
-                <p>Points: 0</p>
-            </div>
-            <div className="player">
-                <h3>Player 3</h3>
-                <p>Points: 0</p>
-            </div>
-            <div className="player">
-                <h3>Player 4</h3>
-                <p>Points: 0</p>
-            </div>
-        </div>
+      <div className="scoreboard">
+        {players.map((player, index) => (
+          <div className="player" key={index}>
+            <h3>{player}</h3>
+            <p>Points: {pts[index]}</p>
+          </div>
+        ))}
+      </div>
     );
-};
+}
+
 
 export default Scoreboard;
