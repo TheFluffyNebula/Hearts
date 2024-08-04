@@ -1,7 +1,9 @@
-import { generateId } from '../utils/roomUtils.js';
+import * as roomUtils from '../utils/roomUtils.js';
 
 const createRoom = (req, res) => {
-  res.json({ roomId: generateId(), userId: generateId() });
+  const roomId = roomUtils.generateId();
+  roomUtils.createRoom(roomId);
+  res.json({ roomId: roomId, userId: roomUtils.generateId() });
 }
 
 export { createRoom };
