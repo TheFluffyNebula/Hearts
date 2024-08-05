@@ -1,23 +1,21 @@
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import React from "react";
-import CenterCards from "./components/CenterCards";
-import Hand from "./components/Hand";
-import Scoreboard from "./components/Scoreboard";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './HomePage';
+import GamePage from './GamePage';
 
-// const SUITS = ["♠", "♣", "♥", "♦"]
 function App() {
   return (
-    // <h1>Hi!</h1>
-    <div className="app">
-      <CenterCards />
-      <Hand />
-      <Scoreboard />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/room/:roomId" element={<GamePage />} />
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
+
 /**
  * Game state as parent component to hold information
  * ex. totalPts, curPts
