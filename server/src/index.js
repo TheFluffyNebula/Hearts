@@ -1,12 +1,16 @@
+import cors from "cors";
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import roomRoutes from "./routes/roomRoutes.js";
 import roomSockets from "./sockets/roomSockets.js";
 
+const clientServerUrl = "http://localhost:5173";
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: { origin: clientServerUrl, methods: ["GET", "POST"] },
+});
 
 app.use(express.json());
 app.use((req, res, next) => {
@@ -14,6 +18,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use("/api/rooms", roomRoutes);
+app.use(cors({ origin: clientServerUrl, optionsSuccessStatus: 200 }));
 
 roomSockets(io);
 
