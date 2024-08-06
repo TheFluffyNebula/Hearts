@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
-  const [roomId, setRoomId] = useState('');
+  const [roomId, setRoomId] = useState("");
   const navigate = useNavigate(); // useNavigate hook to get the navigate function
 
   const createRoom = () => {
+    if (roomId === "") {
+      alert("Room ID cannot be empty");
+      return;
+    }
     console.log(`Creating room ${roomId}`);
     // Change '/room/${roomId}' to your desired route
-    // navigate(`/room/${roomId}`);
+    navigate(`/room/${roomId}`);
   };
 
   const joinRoom = () => {
+    if (roomId === "") {
+      alert("Room ID cannot be empty");
+      return;
+    }
     console.log(`Joining room ${roomId}`);
   };
 

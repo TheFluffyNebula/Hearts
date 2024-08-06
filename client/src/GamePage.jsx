@@ -1,7 +1,7 @@
-import React from 'react';
-import Hand from './components/Hand';
-import CenterCards from './components/CenterCards';
-import Scoreboard from './components/Scoreboard';
+import React from "react";
+import Hand from "./components/Hand";
+import CenterCards from "./components/CenterCards";
+import Scoreboard from "./components/Scoreboard";
 
 function GamePage() {
   return (
