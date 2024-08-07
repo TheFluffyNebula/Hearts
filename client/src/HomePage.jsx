@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { socket } from './socket';
 
 function HomePage() {
   const [roomId, setRoomId] = useState("");
@@ -21,6 +22,7 @@ function HomePage() {
       return;
     }
     console.log(`Joining room ${roomId}`);
+    socket.emit("join", roomId);
   };
 
   return (

@@ -7,9 +7,12 @@ const createRoom = (roomId) => {
 };
 
 const joinRoom = (roomId, userId) => {
-  if (!rooms.has(roomId)) return false;
+  if (!rooms.has(roomId)) return 1;
   rooms.get(roomId).players.push(userId);
-  return true;
+  if (rooms.get(roomId).players.length == 4) {
+    return 2; // start game!
+  }
+  return 0;
 };
 
 const generateId = () => {

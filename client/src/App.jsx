@@ -1,9 +1,20 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { socket } from './socket';
 import HomePage from "./HomePage";
 import GamePage from "./GamePage";
 
 function App() {
+  useEffect(() => {
+    function onConnect() {
+      console.log("client connected");
+    }
+
+    socket.on('connect', onConnect);
+    return () => {
+      socket.off('connect', onConnect);
+    };
+  }, []);
   return (
     <Router>
       <Routes>
