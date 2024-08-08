@@ -18,7 +18,9 @@ app.use((req, res, next) => {
   next();
 });
 app.use("/api/rooms", roomRoutes);
-app.use(cors({ origin: clientServerUrl, optionsSuccessStatus: 200 }));
+
+app.use(cors());
+// app.use(cors({ origin: clientServerUrl, optionsSuccessStatus: 200 }));
 
 roomSockets(io);
 

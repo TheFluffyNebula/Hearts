@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { socket } from './socket';
+import { socket } from "./socket";
 import HomePage from "./HomePage";
 import GamePage from "./GamePage";
 
@@ -10,9 +10,24 @@ function App() {
       console.log("client connected");
     }
 
-    socket.on('connect', onConnect);
+    function onJoin(status, roomId) {
+      if (status == 0) {
+        console.log("[client] room successfully joined!");
+        navigate(`/room/${roomId}`);
+      } else if (status == 1) {
+        console.log("[client] room does not exist");
+      } else if (status == 2) {
+        console.log("[client] room is already full!");
+      } else if (status == 3) {
+        console.log("[client] room full, game is starting!")
+        // additional logic here?
+      }
+    }
+
+    socket.on("connect", onConnect);
+    socket.on("joinStatus", (status, roomId) => onJoin(status, roomId));
     return () => {
-      socket.off('connect', onConnect);
+      socket.off("connect", onConnect);
     };
   }, []);
   return (

@@ -1,19 +1,36 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { socket } from './socket';
+import { socket } from "./socket";
 
 function HomePage() {
   const [roomId, setRoomId] = useState("");
   const navigate = useNavigate(); // useNavigate hook to get the navigate function
 
-  const createRoom = () => {
-    if (roomId === "") {
+  const createRoom = async () => {
+    if (!roomId) {
       alert("Room ID cannot be empty");
       return;
     }
     console.log(`Creating room ${roomId}`);
-    // Change '/room/${roomId}' to your desired route
-    navigate(`/room/${roomId}`);
+    // call createRoom from roomUtils
+    try {
+      const response = await fetch('http://localhost:3001/api/rooms/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log(response);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Room created:', data);
+        navigate(`/room/${roomId}`);
+      } else {
+        console.error('Failed to create room');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const joinRoom = () => {

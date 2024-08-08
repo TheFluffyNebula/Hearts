@@ -15,11 +15,12 @@ export default (io) => {
       } else if (result == 1) {
         console.log('[server] room does not exist')
       } else if (result == 2) {
-        console.log('[server] room is now full!')
+        console.log('[server] room is already full!')
+      } else if (result == 3) {
         // TODO: server side already, start game logic (deal hand)
         // TODO: Emit event to client side to let players know game is starting
       }
-      // io.emit("didJoin", result);
+      io.emit("joinStatus", result, roomId);
     });
 
     // socket.onAny(() => {
