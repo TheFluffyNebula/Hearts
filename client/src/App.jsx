@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { socket } from "./socket";
 import HomePage from "./HomePage";
 import GamePage from "./GamePage";
 
 function App() {
+  const navigate = useNavigate();
   useEffect(() => {
     function onConnect() {
       console.log("client connected");
@@ -20,7 +21,7 @@ function App() {
         console.log("[client] room is already full!");
       } else if (status == 3) {
         console.log("[client] room full, game is starting!")
-        // additional logic here?
+        navigate(`/room/${roomId}`);
       }
     }
 
@@ -31,12 +32,10 @@ function App() {
     };
   }, []);
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/room/:roomId" element={<GamePage />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/room/:roomId" element={<GamePage />} />
+    </Routes>
   );
 }
 

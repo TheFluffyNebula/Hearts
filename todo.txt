@@ -1,3 +1,6 @@
+ISSUES:
+http req, navigation
+
 client side:
 frontend connects to backend port (here it's 3001)
 but what will it be when deployed? something like this link: wss://deploy-socketio-minimal-demo.onrender.com

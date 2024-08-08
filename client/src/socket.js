@@ -4,4 +4,5 @@ import { io } from "socket.io-client";
 // const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:4000';
 const URL = "http://localhost:3001";
 
+// transports: ['websocket'] // disable xhr poll
 export const socket = io(URL);
