@@ -1,5 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 
+const generateId = () => {
+  return uuidv4();
+};
+
 let rooms = new Map();
 
 const createRoom = (roomId) => {
@@ -23,8 +27,23 @@ const joinRoom = (roomId, userId) => {
   return 0;
 };
 
-const generateId = () => {
-  return uuidv4();
-};
+/**
+ * Things to do:
+ * return a new array, set the appropriate card to null, then call setHand (re-render)
+ * put the card in the centerCards (first non-null entry, resets to all null after each trick)
+ * if it's the last card played, identify who wins the trick and gets how many points
+ */
+const playCard = (hand, cardPlayed) => {
+  const ret = [...hand]
+  for (let i = 0; i < 13; i++) {
+    if (ret[i]) { // null check
+      if (ret[i].suit === cardPlayed.suit && ret[i].value === cardPlayed.value) {
+        ret[i] = null;
+    }
+  }
+  return ret;
+  }
+}
 
-export { createRoom, getPlayersInRoom, joinRoom, generateId };
+
+export { generateId, createRoom, getPlayersInRoom, joinRoom, playCard };

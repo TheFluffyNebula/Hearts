@@ -15,7 +15,7 @@ function PlayerInfo({ playerNum }) {
   return (
     <div className="player-info">
       <p>Player {pNum}</p>
-      <p>Current Points: {curPts}</p>
+      <p>Points this round: {curPts}</p>
     </div>
   );
 }

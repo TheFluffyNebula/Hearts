@@ -31,6 +31,16 @@
   right: 10%;
 }
 
+.server-msg { /** top center */
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  /* position: absolute;
+  top: 5%;
+  justify-content: center; */
+}
+
 .card-slot {
   width: 100px;
   height: 140px;

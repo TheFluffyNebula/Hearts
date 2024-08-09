@@ -11,6 +11,8 @@ gameplay elements ideas:
 Everyone dealt 13 cards -- JS shuffle algorithm already obtained (DONE)
 slicing into 4 regions (0, 13), (13, 26), (26, 39), (39, 52) that gets passed into setHand (DONE)
 
+show room code (probably w/ playerInfo)
+
 2 of clubs played automatically -- server-side logic, turns go in order
 everyone has to play the same suit if they have it -- server-side logic
 determine winner/how many pts they get

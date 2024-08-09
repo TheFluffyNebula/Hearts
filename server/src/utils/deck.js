@@ -16,7 +16,7 @@ const generateDeck = () => {
     shuffled[newIndex] = shuffled[i];
     shuffled[i] = oldValue;
   }
-//   console.log(shuffled);
+  // console.log(shuffled[0].suit);
     return shuffled;
 };
 
