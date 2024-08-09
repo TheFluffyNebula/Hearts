@@ -36,6 +36,7 @@ function GamePage() {
     }
 
     function onServerMsg(msg) {
+      console.log('new server message!');
       setServerMsg(msg);
     }
 
@@ -56,7 +57,7 @@ function GamePage() {
       <Hand cards={hand} />
       <PlayerInfo playerNum={playerNum} />
       <Scoreboard />
-      <ServerMsg serverMsg={serverMsg} />
+      <ServerMsg newMsg={serverMsg} />
     </div>
   );
 }

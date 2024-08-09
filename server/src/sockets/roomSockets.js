@@ -65,7 +65,7 @@ export default (io) => {
       console.log("turn", turn);
       // now, re-render center for everyone, newHand for only the person who played it
       // and finally the server message for whose turn it is
-      // io.emit("newCenter", center);
+      io.emit("serverMsg", `Player ${turn + 1}'s Turn!`);
     });
 
     // socket.onAny(() => {
