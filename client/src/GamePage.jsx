@@ -3,6 +3,7 @@ import { socket } from "./socket";
 import Hand from "./components/Hand";
 import CenterCards from "./components/CenterCards";
 import Scoreboard from "./components/Scoreboard";
+import PlayerInfo from "./components/PlayerInfo";
 
 function GamePage() {
   // Initialize the hand with 13 slots, with the first card as the 3 of Hearts
@@ -12,6 +13,7 @@ function GamePage() {
     initArray.push(null);
   }
   const [hand, setHand] = useState(initArray);
+  const [playerNum, setPlayerNum] = useState(-1);
 
   useEffect(() => {
     function onDealHand(receivedHand) {
@@ -19,10 +21,17 @@ function GamePage() {
       setHand(receivedHand);
     }
 
+    function onPlayerNum(n) {
+      // console.log(`You are player ${n}`)
+      setPlayerNum(n);
+    }
+
     socket.on("dealHand", onDealHand);
+    socket.on("playerNum", onPlayerNum);
 
     return () => {
       socket.off("dealHand", onDealHand);
+      socket.off("playerNum", onPlayerNum);
     };
   }, []);
 
@@ -30,6 +39,7 @@ function GamePage() {
     <div className="game-page">
       <CenterCards />
       <Hand cards={hand} />
+      <PlayerInfo playerNum={playerNum} />
       <Scoreboard />
     </div>
   );

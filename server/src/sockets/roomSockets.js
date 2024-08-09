@@ -35,6 +35,8 @@ export default (io) => {
 
           // Emit the hand to the specific player
           io.to(player).emit("dealHand", hand);
+          // Emit the player number to the specific player
+          io.to(player).emit("playerNum", index + 1);
         });
 
         console.log('[server] Cards dealt to players');

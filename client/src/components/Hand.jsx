@@ -7,7 +7,7 @@ function Hand({ cards }) {
   const [hand, setHand] = useState([]);
 
   useEffect(() => {
-    if (cards) {
+    if (cards) { // only set if prop is present
       setHand(cards);
     }
   }, [cards]);
