@@ -1,4 +1,5 @@
 client side:
+display currentPts, playerId, roomId
 frontend connects to backend port (here it's 3001)
 but what will it be when deployed? something like this link: wss://deploy-socketio-minimal-demo.onrender.com
 
@@ -7,8 +8,8 @@ be able to deal a deck of cards (slice into 4)
 turn based element
 
 gameplay elements ideas:
-Everyone dealt 13 cards -- JS shuffle algorithm already obtained
-slicing into 4 regions (0, 13), (13, 26), (26, 39), (39, 52) that gets passed into setHand
+Everyone dealt 13 cards -- JS shuffle algorithm already obtained (DONE)
+slicing into 4 regions (0, 13), (13, 26), (26, 39), (39, 52) that gets passed into setHand (DONE)
 
 2 of clubs played automatically -- server-side logic, turns go in order
 everyone has to play the same suit if they have it -- server-side logic

@@ -19,6 +19,9 @@ export default (io) => {
         console.log('[server] room is already full')
       } else if (result == 3) {
         console.log('[server] game starting!')
+        // make sure the component is mounted so last joined
+        // receives gets dealHand emit
+        io.emit("joinStatus", result, roomId); 
         // Generate and shuffle the deck
         const deck = generateDeck();
 
@@ -35,11 +38,8 @@ export default (io) => {
         });
 
         console.log('[server] Cards dealt to players');
+        return; // emitted joinStatus early
       }
-      // something to consider:
-      // join room happens later so GamePage might be unmounted
-      // could cause some messages to be missed
-      // in that case move the joinStatus emit before game logic
       io.emit("joinStatus", result, roomId);
     });
 
