@@ -29,6 +29,7 @@ function App() {
     socket.on("joinStatus", (status, roomId) => onJoin(status, roomId));
     return () => {
       socket.off("connect", onConnect);
+      socket.off("joinStatus", onJoin);
     };
   }, []);
   return (

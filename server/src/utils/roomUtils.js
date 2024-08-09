@@ -7,6 +7,10 @@ const createRoom = (roomId) => {
 };
 createRoom('a'); // bypass createroom test
 
+const getPlayersInRoom = (roomId) => {
+  return rooms.get(roomId);
+}
+
 const joinRoom = (roomId, userId) => {
   if (!rooms.has(roomId)) return 1;
   if (rooms.get(roomId).players.length == 4) {
@@ -23,4 +27,4 @@ const generateId = () => {
   return uuidv4();
 };
 
-export { createRoom, joinRoom, generateId };
+export { createRoom, getPlayersInRoom, joinRoom, generateId };

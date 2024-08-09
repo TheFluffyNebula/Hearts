@@ -20,11 +20,11 @@ function HomePage() {
           'Content-Type': 'application/json',
         },
       });
-      console.log(response);
+      // console.log(response);
       if (response.ok) {
         const data = await response.json();
+        socket.emit("join", data.roomId);
         console.log('Room created:', data);
-        navigate(`/room/${roomId}`);
       } else {
         console.error('Failed to create room');
       }
