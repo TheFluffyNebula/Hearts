@@ -40,14 +40,21 @@ function GamePage() {
       setServerMsg(msg);
     }
 
+    function onUpdateHand(newHand) {
+      console.log('hi!');
+      setHand(newHand);
+    }
+
     socket.on("dealHand", onDealHand);
     socket.on("playerNum", onPlayerNum);
     socket.on("serverMsg", onServerMsg);
+    socket.on("updateHand", onUpdateHand);
 
     return () => {
       socket.off("dealHand", onDealHand);
       socket.off("playerNum", onPlayerNum);
       socket.off("serverMsg", onServerMsg);
+      socket.off("updateHand", onUpdateHand);
     };
   }, []);
 

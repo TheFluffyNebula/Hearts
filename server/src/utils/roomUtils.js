@@ -39,10 +39,11 @@ const playCard = (hand, cardPlayed) => {
     if (ret[i]) { // null check
       if (ret[i].suit === cardPlayed.suit && ret[i].value === cardPlayed.value) {
         ret[i] = null;
+      }
     }
   }
+  // console.log(ret);
   return ret;
-  }
 }
 
 

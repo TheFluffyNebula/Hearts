@@ -53,20 +53,24 @@ export default (io) => {
       io.to(socket.id).emit("joinStatus", result, roomId);
     });
 
-    socket.on("twoClubs", () => {
-      // console.log("2 Clubs", socket.id);
-      let idx = roomUtils.getPlayersInRoom(socket.data.roomId).indexOf(socket.id); // roomId accessible here???
-      console.log(idx);
-      const newHand = roomUtils.playCard(
-        hands[idx], { suit: '♣', value: '2' });
-      center[0] = { suit: '♣', value: '2' };
-      console.log(center); // should be [{ suit: '♣', value: '2' }, null, null, null]
-      turn = (idx + 1) % 4; // rotate between 0 1 2 3 (add 1 in server turn message)
-      console.log("turn", turn);
-      // now, re-render center for everyone, newHand for only the person who played it
-      // and finally the server message for whose turn it is
-      io.emit("serverMsg", `Player ${turn + 1}'s Turn!`);
-    });
+    // socket.on("twoClubs", () => {
+    //   // console.log("2 Clubs", socket.id);
+    //   let idx = roomUtils.getPlayersInRoom(socket.data.roomId).indexOf(socket.id); // roomId accessible here???
+    //   // console.log(idx);
+    //   const newHand = roomUtils.playCard(
+    //     hands[idx], { suit: '♣', value: '2' });
+    //   // update the data with the new hand
+    //   hands[idx] = newHand;
+    //   // update the center cards
+    //   center[0] = { suit: '♣', value: '2' };
+    //   // console.log(center); // should be [{ suit: '♣', value: '2' }, null, null, null]
+    //   turn = (idx + 1) % 4; // rotate between 0 1 2 3 (add 1 in server turn message)
+    //   console.log("turn of player", turn + 1);
+    //   // now, re-render center for everyone, newHand for only the person who played it
+    //   // and finally the server message for whose turn it is
+    //   io.to(socket.id).emit("updateHand", newHand);
+    //   io.emit("serverMsg", `Player ${turn + 1}'s Turn!`);
+    // });
 
     // socket.onAny(() => {
     //   console.log("something happened");
