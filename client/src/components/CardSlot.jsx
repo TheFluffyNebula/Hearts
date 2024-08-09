@@ -6,7 +6,7 @@ function CardSlot({ card }) {
       {card ? (
         <>
           <div className={`card-suit ${card.suit}`}>{card.suit}</div>
-          <div className="card-rank">{card.rank}</div>
+          <div className="card-rank">{card.value}</div>
         </>
       ) : (
         <div className="empty-slot">Empty</div>

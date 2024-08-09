@@ -8,7 +8,7 @@ const createRoom = (roomId) => {
 createRoom('a'); // bypass createroom test
 
 const getPlayersInRoom = (roomId) => {
-  return rooms.get(roomId);
+  return rooms.get(roomId).players;
 }
 
 const joinRoom = (roomId, userId) => {

@@ -1,16 +1,16 @@
 // Hand.jsx
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CardSlot from "./CardSlot";
 
-function Hand() {
-  // Initialize the hand with 13 slots, with the first card as the 3 of Hearts
-  const initArray = [];
-  // initArray.push({ rank: "3", suit: "♥" });
-  for (let i = 0; i < 13; i++) {
-    initArray.push(null);
-  }
-  const [hand, setHand] = useState(initArray);
+function Hand({ cards }) {
+  const [hand, setHand] = useState([]);
+
+  useEffect(() => {
+    if (cards) {
+      setHand(cards);
+    }
+  }, [cards]);
 
   return (
     <div className="hand">
