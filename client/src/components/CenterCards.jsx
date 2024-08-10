@@ -1,17 +1,19 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CardSlot from "./CardSlot";
 
-function CenterCards() {
-  const initArray = [];
-  for (let i = 0; i < 4; i++) {
-    initArray.push(null);
-  }
-  const [hand, setHand] = useState(initArray);
+function CenterCards( {c} ) {
+  const [center, setCenter] = useState([null, null, null, null]);
+
+  useEffect(() => {
+    if (c) { // only set if prop is present
+      setCenter(c);
+    }
+  }, [c]);
 
   return (
     <div className="center-cards">
-      {hand.map((card, index) => (
+      {center.map((card, index) => (
         <CardSlot key={index} card={card} />
       ))}
     </div>

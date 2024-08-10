@@ -14,6 +14,7 @@ function GamePage() {
     initArray.push(null);
   }
   const [hand, setHand] = useState(initArray);
+  const [center, setCenter] = useState([null, null, null, null])
   const [playerNum, setPlayerNum] = useState(-1);
   const [serverMsg, setServerMsg] = useState("");
 
@@ -42,26 +43,32 @@ function GamePage() {
     }
 
     function onUpdateHand(newHand) {
-      console.log('hi!');
+      console.log('hand updated!');
       setHand(newHand);
+    }
+
+    function onUpdateCenter(newCenter) {
+      console.log('center updated');
+      setCenter(newCenter);
     }
 
     socket.on("dealHand", onDealHand);
     socket.on("playerNum", onPlayerNum);
     socket.on("serverMsg", onServerMsg);
     socket.on("updateHand", onUpdateHand);
-
+    socket.on("updateCenter", onUpdateCenter);
     return () => {
       socket.off("dealHand", onDealHand);
       socket.off("playerNum", onPlayerNum);
       socket.off("serverMsg", onServerMsg);
       socket.off("updateHand", onUpdateHand);
+      socket.off("updateCenter", onUpdateCenter);
     };
   }, []);
 
   return (
     <div className="game-page">
-      <CenterCards />
+      <CenterCards c={center} />
       <Hand cards={hand} />
       <PlayerInfo playerNum={playerNum} />
       <Scoreboard />

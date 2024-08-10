@@ -45,7 +45,7 @@ export default (io) => {
       // Distribute 13 cards to each player
       players.forEach((player, index) => {
         const hand = deck.slice(index * cardsPerPlayer, (index + 1) * cardsPerPlayer);
-        hands.push(hand);
+        hands[index] = hand;
         // Emit the hand to the specific player
         io.to(player).emit("dealHand", hand);
         // Emit the player number to the specific player
@@ -57,6 +57,7 @@ export default (io) => {
     });
 
     socket.on("twoClubs", () => {
+      console.log(hands); // hands has 8 entries both times, not good
       // console.log("2 Clubs", socket.id);
       let idx = roomUtils.getPlayersInRoom(socket.data.roomId).indexOf(socket.id); // roomId accessible here???
       // console.log(idx);
@@ -71,6 +72,9 @@ export default (io) => {
       console.log("turn of player", turn + 1);
       // now, re-render center for everyone, newHand for only the person who played it
       // and finally the server message for whose turn it is
+      // io.emit("updateCenter", center);
+      console.log(center);
+      io.emit("updateCenter", center);
       io.to(socket.id).emit("updateHand", newHand);
       io.emit("serverMsg", `Player ${turn + 1}'s Turn!`);
     });
