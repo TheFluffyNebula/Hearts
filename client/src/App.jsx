@@ -20,16 +20,24 @@ function App() {
       } else if (status == 2) {
         console.log("[client] room is already full!");
       } else if (status == 3) {
-        console.log("[client] room full, game is starting!")
-        navigate(`/room/${roomId}`);
+        console.log("[client] room full, game is starting!");
+        // navigate(`/room/${roomId}`); // TODO: Navigate is duplicated here!
       }
+    }
+
+    function onFinalCheck(roomId) {
+      console.log("[client] final ready check");
+      navigate(`/room/${roomId}`);
+      socket.emit("startGame");
     }
 
     socket.on("connect", onConnect);
     socket.on("joinStatus", (status, roomId) => onJoin(status, roomId));
+    socket.on("finalCheck", (roomId) => onFinalCheck(roomId));
     return () => {
       socket.off("connect", onConnect);
       socket.off("joinStatus", onJoin);
+      socket.off("finalCheck", (roomId) => onFinalCheck(roomId));
     };
   }, []);
   return (

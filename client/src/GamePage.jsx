@@ -26,6 +26,7 @@ function GamePage() {
         if (receivedHand[i].suit === '♣' && receivedHand[i].value === '2') {
           // 2 of clubs goes first, let the server know which player has it
           socket.emit("twoClubs"); // server can see socket.id
+          console.log("2 clubs");
         }
       }
     }

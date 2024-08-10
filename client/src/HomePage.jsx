@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { socket } from "./socket";
 
 function HomePage() {
   const [roomId, setRoomId] = useState("");
-  const navigate = useNavigate(); // useNavigate hook to get the navigate function
 
   const createRoom = async () => {
     if (!roomId) {
