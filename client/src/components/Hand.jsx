@@ -1,7 +1,7 @@
 // Hand.jsx
 import React from "react";
 import { useState, useEffect } from "react";
-import CardSlot from "./CardSlot";
+import HandCardSlot from "./HandCardSlot";
 
 function Hand({ cards }) {
   const [hand, setHand] = useState([]);
@@ -15,7 +15,7 @@ function Hand({ cards }) {
   return (
     <div className="hand">
       {hand.map((card, index) => (
-        <CardSlot key={index} card={card} />
+        <HandCardSlot key={index} card={card} />
       ))}
     </div>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import CardSlot from "./CardSlot";
+import CenterCardSlot from "./CenterCardSlot";
 
 function CenterCards( {c} ) {
   const [center, setCenter] = useState([null, null, null, null]);
@@ -14,7 +14,7 @@ function CenterCards( {c} ) {
   return (
     <div className="center-cards">
       {center.map((card, index) => (
-        <CardSlot key={index} card={card} />
+        <CenterCardSlot key={index} card={card} />
       ))}
     </div>
   );

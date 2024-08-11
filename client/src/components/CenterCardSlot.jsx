@@ -1,8 +1,8 @@
 import React from "react";
-
-function CardSlot({ card }) {
+// read-only
+function CenterCardSlot({ card }) {
   return (
-    <div className="card-slot">
+    <div className="center-card-slot">
       {card ? (
         <>
           <div className={`card-suit ${card.suit}`}>{card.suit}</div>
@@ -15,4 +15,4 @@ function CardSlot({ card }) {
   );
 }
 
-export default CardSlot;
+export default CenterCardSlot;

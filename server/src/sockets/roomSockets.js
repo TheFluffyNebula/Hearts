@@ -7,9 +7,9 @@ let center = [null, null, null, null] // center cards
 // gameplay elements
 let turn = -1
 // reset these values to these
-suit = ""
-highestValue = 0 // base value, easy to tell first player
-highestId = "" // emit the points to the winner
+let suit = ""
+let highestValue = 0 // base value, easy to tell first player
+let highestId = "" // emit the points to the winner
 // keep it simple 2 = 2, J = 11, A = 14
 const CARD_VALUE_MAP = {
   "2": 2,

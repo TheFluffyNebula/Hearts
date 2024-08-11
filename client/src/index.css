@@ -41,7 +41,16 @@
   justify-content: center; */
 }
 
-.card-slot {
+.center-card-slot {
+  width: 100px;
+  height: 140px;
+  border: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hand-card-slot { /** separate css, ex. green border for valid cards on turn */
   width: 100px;
   height: 140px;
   border: 1px solid #000;
