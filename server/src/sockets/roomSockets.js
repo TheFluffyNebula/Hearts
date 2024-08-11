@@ -114,11 +114,18 @@ export default (io) => {
         console.log("It's not your turn!");
         return;
       }
-      if (suit != "" && card.suit != suit) { // established suit + not matching
-        console.log("Play the suit if you have it.");
-        return;
+      let possibleHighest = true;
+      if (suit != "" && card.suit != suit) { // established suit + not matching + has suit
+        for (let i = 0; i < 13; i++) {
+          if (hands[playerIdx][i] && hands[playerIdx][i].suit == suit) {
+            console.log("Play the suit if you have it.");
+            return;
+          }
+        }
+        // not the suit but still valid, can't be highest though
+        possibleHighest = false;
       }
-      // valid suit, valid turn, let's go!
+      // valid turn, let's go!
       // common operation: play card
       const newHand = roomUtils.playCard(
         hands[playerIdx], card);
@@ -138,13 +145,13 @@ export default (io) => {
         } else {
           center[2] = card;
         }
-        if (CARD_VALUE_MAP[card.value] > highestValue) {
+        if (possibleHighest && CARD_VALUE_MAP[card.value] > highestValue) {
           highestValue = CARD_VALUE_MAP[card.value];
           highestId = socket.id;
         }
       } else { // CASE 3: last card
         center[3] = card;
-        if (CARD_VALUE_MAP[card.value] > highestValue) {
+        if (possibleHighest && CARD_VALUE_MAP[card.value] > highestValue) {
           highestValue = CARD_VALUE_MAP[card.value];
           highestId = socket.id;
         }
