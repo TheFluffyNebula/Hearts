@@ -6,8 +6,10 @@ let hands = []
 let center = [null, null, null, null] // center cards
 // gameplay elements
 let turn = -1
-// reset these values to these
-let suit = ""
+let totalPts = [0, 0, 0, 0]
+// reset these values to these after each round
+let curPts = [0, 0, 0, 0]
+let suit = "♣" // 2 of clubs automatically played
 let highestValue = 0 // base value, easy to tell first player
 let highestId = "" // emit the points to the winner
 // keep it simple 2 = 2, J = 11, A = 14
@@ -147,7 +149,7 @@ export default (io) => {
           highestId = socket.id;
         }
         // last card played, calculate scoring
-        const roundPts = 0;
+        let roundPts = 0;
         for (let i = 0; i < 4; i++) {
           if (center[i].suit == '♥') {
             roundPts += 1;
@@ -156,8 +158,10 @@ export default (io) => {
             roundPts += 13;
           }
         }
-        // update scores -- curRound and total vars?
-        // TODO: ex. io.to(highestId).emit("scoreUpdate");
+        console.log(roundPts); // should be 0 for clubs round unless someone has a heart
+        // update scores -- immediately for curRound and later for total vars?
+        // TODO: ex. io.emit("scoreUpdate"); (re-render pts this game)
+        // once last card is gone add to totals and re-render those
         // reset the variables
         turn = roomUtils.getPlayersInRoom(socket.data.roomId).indexOf(highestId);
         center = [null, null, null, null];

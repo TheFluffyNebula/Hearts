@@ -66,10 +66,21 @@ function GamePage() {
     };
   }, []);
 
+  const handleCardClick = (card) => {
+    // check if the card is empty (avoid null pointer access)
+    if (card == null) {
+      console.log("No card here!");
+      return;
+    }
+    console.log(`Card clicked: ${card.suit} ${card.value}`);
+    // Emit playCard
+    socket.emit("playCard", card);
+  };
+
   return (
     <div className="game-page">
       <CenterCards c={center} />
-      <Hand cards={hand} />
+      <Hand cards={hand} onCardClick={handleCardClick} />
       <PlayerInfo playerNum={playerNum} />
       <Scoreboard />
       <ServerMsg newMsg={serverMsg} />

@@ -3,7 +3,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import HandCardSlot from "./HandCardSlot";
 
-function Hand({ cards }) {
+function Hand({ cards, onCardClick }) {
   const [hand, setHand] = useState([]);
 
   useEffect(() => {
@@ -15,7 +15,11 @@ function Hand({ cards }) {
   return (
     <div className="hand">
       {hand.map((card, index) => (
-        <HandCardSlot key={index} card={card} />
+        <HandCardSlot 
+        key={index} 
+        card={card}
+        onClick={() => onCardClick(card)}
+        />
       ))}
     </div>
   );

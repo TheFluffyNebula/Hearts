@@ -1,8 +1,8 @@
 import React from "react";
 // attach listeners
-function HandCardSlot({ card }) {
+function HandCardSlot({ card, onClick }) {
   return (
-    <div className="hand-card-slot">
+    <div className="hand-card-slot" onClick={onClick}>
       {card ? (
         <>
           <div className={`card-suit ${card.suit}`}>{card.suit}</div>
