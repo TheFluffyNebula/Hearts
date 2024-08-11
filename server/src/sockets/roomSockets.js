@@ -52,6 +52,7 @@ export default (io) => {
         // make sure the component is mounted so last joined
         // receives gets dealHand emit
         io.to(socket.id).emit("finalCheck", roomId);
+        // TODO: here is a good spot to setup the room-specific data
         return; // don't go here twice
       }
       io.to(socket.id).emit("joinStatus", result, roomId);
@@ -181,9 +182,18 @@ export default (io) => {
           }
           // update scoreboard for everyone
           io.emit("scoreboardUpdate", totalPts);
-          // if someone is above 50 pts, end game & amt wins
+          // if someone is above x pts, end game & lowest amt wins
+          if (Math.max(...totalPts) > 20) { // 10/20 right now for testing (1-2 rounds), normally 75/100
+            io.emit("serverMsg", 'Game Over, lowest score wins!');
+          } else { // start the next round
+            center = [null, null, null, null];
+            suit = "";
+            highestValue = 0;
+            highestId = "";
+            io.to(socket.data.roomId).emit("nextRound");
+          }
+          return;
         }
-
         // reset the variables
         turn = winnerIdx;
         center = [null, null, null, null];

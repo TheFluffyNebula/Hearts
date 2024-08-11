@@ -11,19 +11,17 @@ turn based element
 gameplay elements ideas:
 Everyone dealt 13 cards -- JS shuffle algorithm already obtained (DONE)
 slicing into 4 regions (0, 13), (13, 26), (26, 39), (39, 52) that gets passed into setHand (DONE)
-
-show room code (probably w/ playerInfo)
 start/ready signal to ensure cards render for everyone (DONE)
-refactor roomSockets.js to maintain room-local variables
-
 2 of clubs played automatically -- server-side logic, turns go in order (DONE)
 handle empty card clicked (cleaner if handled on the backend) (DONE)
 everyone has to play the same suit if they have it -- server-side logic (DONE)
 determine winner/how many pts they get (DONE)
+pt counts: displayed on React side, kept track of by server (DONE)
 
 breaking into hearts: server-side boolean
-
-pt counts: displayed on React side, kept track of by server (DONE)
+show room code (probably w/ playerInfo)
+refactor roomSockets.js to maintain room-local variables
+refactor emits so that they only emit to the room
 
 extra stuff (low prio or later):
 sleep for 1s after last card played, display who won the trick

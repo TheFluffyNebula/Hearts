@@ -31,13 +31,20 @@ function App() {
       socket.emit("startGame");
     }
 
+    function onNextRound() {
+      console.log("[client] next round!");
+      socket.emit("startGame");
+    }
+
     socket.on("connect", onConnect);
     socket.on("joinStatus", (status, roomId) => onJoin(status, roomId));
     socket.on("finalCheck", (roomId) => onFinalCheck(roomId));
+    socket.on("nextRound", onNextRound);
     return () => {
       socket.off("connect", onConnect);
       socket.off("joinStatus", onJoin);
       socket.off("finalCheck", (roomId) => onFinalCheck(roomId));
+      socket.off("nextRound", onNextRound);
     };
   }, []);
   return (
