@@ -1,10 +1,31 @@
 import * as roomUtils from "../utils/roomUtils.js";
 import { generateDeck } from "../utils/deck.js";
 
+// cards to render
 let hands = []
 let center = [null, null, null, null] // center cards
-// highest card variable?
+// gameplay elements
 let turn = -1
+// reset these values to these
+suit = ""
+highestValue = 0 // base value, easy to tell first player
+highestId = "" // emit the points to the winner
+// keep it simple 2 = 2, J = 11, A = 14
+const CARD_VALUE_MAP = {
+  "2": 2,
+  "3": 3,
+  "4": 4,
+  "5": 5,
+  "6": 6,
+  "7": 7,
+  "8": 8,
+  "9": 9,
+  "10": 10,
+  J: 11,
+  Q: 12,
+  K: 13,
+  A: 14
+}
 
 export default (io) => {
   io.on("connection", (socket) => {
@@ -56,7 +77,7 @@ export default (io) => {
       console.log('[server] Cards dealt to players');
     });
 
-    socket.on("twoClubs", () => {
+    socket.on("twoClubs", () => { // takes care of the very first card
       console.log(hands); // hands has 8 entries both times, not good
       // console.log("2 Clubs", socket.id);
       let idx = roomUtils.getPlayersInRoom(socket.data.roomId).indexOf(socket.id); // roomId accessible here???
@@ -78,6 +99,77 @@ export default (io) => {
       io.to(socket.id).emit("updateHand", newHand);
       io.emit("serverMsg", `Player ${turn + 1}'s Turn!`);
     });
+
+    // 3 cases: first card (set suit), middle card (check suit), last card ()
+    // TODO: implement breaking into hearts
+    socket.on("playCard", (card) => {
+      // first check if the turn is valid
+      // turn correctly stores whose turn it is so compare turn and players.indexOf(socket.id)
+      // include common check: suit
+      const players = roomUtils.getPlayersInRoom(socket.data.roomId);
+      const playerIdx = players.indexOf(socket.id);
+      if (turn != playerIdx) {
+        console.log("It's not your turn!");
+        return;
+      }
+      if (suit != "" && card.suit != suit) { // established suit + not matching
+        console.log("Play the suit if you have it.");
+        return;
+      }
+      // valid suit, valid turn, let's go!
+      // common operation: play card
+      const newHand = roomUtils.playCard(
+        hands[playerIdx], card);
+      // update the data with the new hand
+      hands[playerIdx] = newHand;
+      // differences: information changed, actions
+      if (suit == "") { // CASE 1: first card played
+        turn = (turn + 1) % 4;
+        center[0] = card;
+        suit = card.suit;
+        highestValue = CARD_VALUE_MAP[card.value];
+        highestId = socket.id;
+      } else if (center[2] == null) { // CASE 2: middle card (3rd card hasn't been played)
+        turn = (turn + 1) % 4;
+        if (center[1] == null) {
+          center[1] = card;
+        } else {
+          center[2] = card;
+        }
+        if (CARD_VALUE_MAP[card.value] > highestValue) {
+          highestValue = CARD_VALUE_MAP[card.value];
+          highestId = socket.id;
+        }
+      } else { // CASE 3: last card
+        center[3] = card;
+        if (CARD_VALUE_MAP[card.value] > highestValue) {
+          highestValue = CARD_VALUE_MAP[card.value];
+          highestId = socket.id;
+        }
+        // last card played, calculate scoring
+        const roundPts = 0;
+        for (let i = 0; i < 4; i++) {
+          if (center[i].suit == '♥') {
+            roundPts += 1;
+          }
+          if (center[i].suit == '♠' && center[i].value == 'Q') {
+            roundPts += 13;
+          }
+        }
+        // update scores -- curRound and total vars?
+        // TODO: ex. io.to(highestId).emit("scoreUpdate");
+        // reset the variables
+        turn = roomUtils.getPlayersInRoom(socket.data.roomId).indexOf(highestId);
+        center = [null, null, null, null];
+        suit = "";
+        highestValue = 0;
+        highestId = "";
+      }
+      // same set of updates
+      io.emit("updateCenter", center);
+      io.to(socket.id).emit("updateHand", newHand);
+      io.emit("serverMsg", `Player ${turn + 1}'s Turn!`);
+    })
 
     // socket.onAny(() => {
     //   console.log("something happened");

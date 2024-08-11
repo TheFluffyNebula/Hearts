@@ -1,4 +1,5 @@
 client side:
+split CardSlot into CenterCardSlot and HandCardSlot
 display currentPts, playerId, roomId
 frontend connects to backend port (here it's 3001)
 but what will it be when deployed? something like this link: wss://deploy-socketio-minimal-demo.onrender.com
@@ -12,14 +13,15 @@ Everyone dealt 13 cards -- JS shuffle algorithm already obtained (DONE)
 slicing into 4 regions (0, 13), (13, 26), (26, 39), (39, 52) that gets passed into setHand (DONE)
 
 show room code (probably w/ playerInfo)
-start/ready signal to ensure cards render for everyone
+start/ready signal to ensure cards render for everyone (DONE)
 refactor roomSockets.js to maintain room-local variables
 
-2 of clubs played automatically -- server-side logic, turns go in order
-everyone has to play the same suit if they have it -- server-side logic
-determine winner/how many pts they get
+2 of clubs played automatically -- server-side logic, turns go in order (DONE)
+handle empty card clicked (cleaner if handled on the backend) (IN PROGRESS)
+everyone has to play the same suit if they have it -- server-side logic (IN PROGRESS)
+determine winner/how many pts they get (IN PROGRESS)
 
-breaking into hearts: server-side variable, js filler
+breaking into hearts: server-side boolean
 
 pt counts: displayed on React side, kept track of by server
 
