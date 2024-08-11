@@ -174,6 +174,7 @@ export default (io) => {
           }
           // update scoreboard for everyone
           io.emit("scoreboardUpdate", totalPts);
+          // if someone is above 50 pts, end game & amt wins
         }
 
         // reset the variables

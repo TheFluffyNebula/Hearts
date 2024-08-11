@@ -18,6 +18,7 @@ function GamePage() {
   const [playerNum, setPlayerNum] = useState(-1);
   const [serverMsg, setServerMsg] = useState("");
   const [curPts, setCurPts] = useState(0);
+  const [totalPts, setTotalPts] = useState([0, 0, 0, 0]);
 
   useEffect(() => {
     function onDealHand(receivedHand) {
@@ -57,12 +58,17 @@ function GamePage() {
       setCurPts(rPts);
     }
 
+    function onScoreboardUpdate(tPts) {
+      setTotalPts(tPts);
+    }
+
     socket.on("dealHand", onDealHand);
     socket.on("playerNum", onPlayerNum);
     socket.on("serverMsg", onServerMsg);
     socket.on("updateHand", onUpdateHand);
     socket.on("updateCenter", onUpdateCenter);
     socket.on("roundUpdate", onRoundUpdate);
+    socket.on("scoreboardUpdate", onScoreboardUpdate);
     return () => {
       socket.off("dealHand", onDealHand);
       socket.off("playerNum", onPlayerNum);
@@ -70,6 +76,7 @@ function GamePage() {
       socket.off("updateHand", onUpdateHand);
       socket.off("updateCenter", onUpdateCenter);
       socket.off("roundUpdate", onRoundUpdate);
+      socket.off("scoreboardUpdate", onScoreboardUpdate);
     };
   }, []);
 
@@ -89,7 +96,7 @@ function GamePage() {
       <CenterCards c={center} />
       <Hand cards={hand} onCardClick={handleCardClick} />
       <PlayerInfo playerNum={playerNum} curPts={curPts} />
-      <Scoreboard />
+      <Scoreboard totalPts={totalPts} />
       <ServerMsg newMsg={serverMsg} />
     </div>
   );

@@ -19,13 +19,14 @@ refactor roomSockets.js to maintain room-local variables
 2 of clubs played automatically -- server-side logic, turns go in order (DONE)
 handle empty card clicked (cleaner if handled on the backend) (DONE)
 everyone has to play the same suit if they have it -- server-side logic (DONE)
-determine winner/how many pts they get (IN PROGRESS, JUST UPDATE LEFT)
+determine winner/how many pts they get (DONE)
 
 breaking into hearts: server-side boolean
 
-pt counts: displayed on React side, kept track of by server
+pt counts: displayed on React side, kept track of by server (DONE)
 
 extra stuff (low prio or later):
 sleep for 1s after last card played, display who won the trick
 shooting the moon
 passing 3 cards
+username updates
