@@ -80,7 +80,7 @@ export default (io) => {
     });
 
     socket.on("twoClubs", () => { // takes care of the very first card
-      console.log(hands); // hands has 8 entries both times, not good
+      // console.log(hands); // hands has 8 entries both times, not good
       // console.log("2 Clubs", socket.id);
       let idx = roomUtils.getPlayersInRoom(socket.data.roomId).indexOf(socket.id); // roomId accessible here???
       // console.log(idx);
@@ -96,7 +96,7 @@ export default (io) => {
       // now, re-render center for everyone, newHand for only the person who played it
       // and finally the server message for whose turn it is
       // io.emit("updateCenter", center);
-      console.log(center);
+      // console.log(center);
       io.emit("updateCenter", center);
       io.to(socket.id).emit("updateHand", newHand);
       io.emit("serverMsg", `Player ${turn + 1}'s Turn!`);
@@ -160,10 +160,24 @@ export default (io) => {
         }
         console.log(roundPts); // should be 0 for clubs round unless someone has a heart
         // update scores -- immediately for curRound and later for total vars?
-        // TODO: ex. io.emit("scoreUpdate"); (re-render pts this game)
-        // once last card is gone add to totals and re-render those
+        const winnerIdx = roomUtils.getPlayersInRoom(socket.data.roomId).indexOf(highestId)
+        curPts[winnerIdx] += roundPts;
+        // update the winner's round pts
+        io.to(highestId).emit("roundUpdate", curPts[winnerIdx]);
+
+        // if the last card is gone add to totals and re-render those
+        if (hands[0].every(element => element === null)) {
+          for (let i = 0; i < 4; i++) {
+            // update each person's totalPts based on their roundPts
+            totalPts[i] += curPts[i];
+            curPts[i] = 0; // reset the value
+          }
+          // update scoreboard for everyone
+          io.emit("scoreboardUpdate", totalPts);
+        }
+
         // reset the variables
-        turn = roomUtils.getPlayersInRoom(socket.data.roomId).indexOf(highestId);
+        turn = winnerIdx;
         center = [null, null, null, null];
         suit = "";
         highestValue = 0;
