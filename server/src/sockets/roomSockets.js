@@ -63,7 +63,7 @@ export default (io) => {
 
     socket.on("startGame", () => {
       // let the client know the room id
-      io.emit("roomId", socket.data.roomId);
+      io.to(socket.data.roomId).emit("roomId", socket.data.roomId);
 
       // Generate and shuffle the deck
       const deck = generateDeck();
@@ -198,12 +198,12 @@ export default (io) => {
             }
           }
           // update scoreboard for everyone
-          io.emit("scoreboardUpdate", totalPts);
+          io.to(socket.data.roomId).emit("scoreboardUpdate", totalPts);
           curPts = [0, 0, 0, 0]
           io.to(highestId).emit("roundUpdate", curPts[winnerIdx]);
           // if someone is above x pts, end game & lowest amt wins
           if (Math.max(...totalPts) > 10) { // 10/20 right now for testing (1-2 rounds), normally 75/100
-            io.emit("serverMsg", 'Game Over, lowest score wins!');
+            io.to(socket.data.roomId).emit("serverMsg", 'Game Over, lowest score wins!');
           } else { // start the next round
             // started & turn get reset from started=false
             center = [null, null, null, null];
@@ -212,7 +212,7 @@ export default (io) => {
             suit = "♣"
             highestValue = 0;
             highestId = "";
-            io.emit("serverMsg", 'Round over!');
+            io.to(socket.data.roomId).emit("serverMsg", 'Round over!');
             io.to(socket.data.roomId).emit("nextRound");
           }
           return;
@@ -225,10 +225,10 @@ export default (io) => {
         highestId = "";
         
       }
-      // same set of updates
-      io.emit("updateCenter", center);
+      // update after turn
+      io.to(socket.data.roomId).emit("updateCenter", center);
       io.to(socket.id).emit("updateHand", newHand);
-      io.emit("serverMsg", `Player ${turn + 1}'s Turn!`);
+      io.to(socket.data.roomId).emit("serverMsg", `Player ${turn + 1}'s Turn!`);
     })
 
     // socket.onAny(() => {
