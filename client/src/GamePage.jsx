@@ -17,6 +17,7 @@ function GamePage() {
   const [center, setCenter] = useState([null, null, null, null])
   const [playerNum, setPlayerNum] = useState(-1);
   const [serverMsg, setServerMsg] = useState("");
+  const [playerMsg, setPlayerMsg] = useState("");
   const [curPts, setCurPts] = useState(0);
   const [totalPts, setTotalPts] = useState([0, 0, 0, 0]);
 
@@ -32,8 +33,12 @@ function GamePage() {
     }
 
     function onServerMsg(msg) {
-      console.log('new server message!');
+      // console.log('new server message!');
       setServerMsg(msg);
+    }
+
+    function onPlayerMsg(msg) {
+      setPlayerMsg(msg);
     }
 
     function onUpdateHand(newHand) {
@@ -57,6 +62,7 @@ function GamePage() {
     socket.on("dealHand", onDealHand);
     socket.on("playerNum", onPlayerNum);
     socket.on("serverMsg", onServerMsg);
+    socket.on("playerMsg", onPlayerMsg);
     socket.on("updateHand", onUpdateHand);
     socket.on("updateCenter", onUpdateCenter);
     socket.on("roundUpdate", onRoundUpdate);
@@ -65,6 +71,7 @@ function GamePage() {
       socket.off("dealHand", onDealHand);
       socket.off("playerNum", onPlayerNum);
       socket.off("serverMsg", onServerMsg);
+      socket.off("playerMsg", onPlayerMsg);
       socket.off("updateHand", onUpdateHand);
       socket.off("updateCenter", onUpdateCenter);
       socket.off("roundUpdate", onRoundUpdate);
@@ -89,7 +96,7 @@ function GamePage() {
       <Hand cards={hand} onCardClick={handleCardClick} />
       <PlayerInfo playerNum={playerNum} curPts={curPts} />
       <Scoreboard totalPts={totalPts} />
-      <ServerMsg newMsg={serverMsg} />
+      <ServerMsg newMsg={serverMsg} playerMsg={playerMsg} />
     </div>
   );
 }

@@ -17,8 +17,10 @@ handle empty card clicked (cleaner if handled on the backend) (DONE)
 everyone has to play the same suit if they have it -- server-side logic (DONE)
 determine winner/how many pts they get (DONE)
 pt counts: displayed on React side, kept track of by server (DONE)
+breaking into hearts: server-side boolean (DONE)
+shooting the moon (DONE)
+player-specific messages (DONE)
 
-breaking into hearts: server-side boolean
 show room code (probably w/ playerInfo)
 refactor roomSockets.js to maintain room-local variables
 refactor emits so that they only emit to the room
@@ -27,6 +29,5 @@ glowing valid cards
 
 extra stuff (low prio or later):
 sleep for 1s after last card played, display who won the trick
-shooting the moon
 passing 3 cards
 username updates

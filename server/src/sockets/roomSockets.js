@@ -94,7 +94,8 @@ export default (io) => {
           started = true;
           turn = playerIdx;
         } else {
-          console.log("Must start with 2 of clubs!");
+          // console.log("Must start with 2 of clubs!");
+          io.to(socket.id).emit("playerMsg", "Must start with 2 of clubs!");
           return;
         }
       } else {
@@ -102,17 +103,25 @@ export default (io) => {
         // turn correctly stores whose turn it is so compare turn and players.indexOf(socket.id)
         if (turn != playerIdx) {
           // console.log("It's not your turn!");
+          io.to(socket.id).emit("playerMsg", "It's not your turn!");
           return;
         }
         // include common check: suit
-        if (!heartbreak && card.suit == "♥") {
-          // console.log("Hearts not broken yet!");
-          return;
+        if (suit == "" && !heartbreak && card.suit == "♥") {
+          // edge case: player only has hearts left, check for non-hearts cards
+          for (let i = 0; i < 13; i++) {
+            if (hands[playerIdx][i] && hands[playerIdx][i].suit != "♥") {
+              // console.log("Hearts not broken yet!");
+              io.to(socket.id).emit("playerMsg", "Hearts not broken yet!");
+              return;
+            }
+          }
         }
         if (suit != "" && card.suit != suit) { // established suit + not matching
           for (let i = 0; i < 13; i++) { // check for has suit
             if (hands[playerIdx][i] && hands[playerIdx][i].suit == suit) {
               // console.log("Play the suit if you have it.");
+              io.to(socket.id).emit("playerMsg", "Play the suit if you have it.");
               return;
             }
           }
@@ -171,17 +180,26 @@ export default (io) => {
 
         // if the last card is gone add to totals and re-render those
         if (hands[0].every(element => element === null)) {
-          for (let i = 0; i < 4; i++) {
-            // update each person's totalPts based on their roundPts
-            totalPts[i] += curPts[i];
-            curPts[i] = 0; // reset the value
+          // check if someone shot the moon
+          if (Math.max(...curPts) == 26) {
+            for (let i = 0; i < 4; i++) {
+              if (curPts[i] != 26) {
+                totalPts[i] += 26;
+              }
+            }
+          } else {
+            for (let i = 0; i < 4; i++) {
+              // update each person's totalPts based on their roundPts
+              totalPts[i] += curPts[i];
+              curPts[i] = 0; // reset the value
+            }
           }
           // update scoreboard for everyone
           io.emit("scoreboardUpdate", totalPts);
           curPts = [0, 0, 0, 0]
           io.to(highestId).emit("roundUpdate", curPts[winnerIdx]);
           // if someone is above x pts, end game & lowest amt wins
-          if (Math.max(...totalPts) > 20) { // 10/20 right now for testing (1-2 rounds), normally 75/100
+          if (Math.max(...totalPts) > 10) { // 10/20 right now for testing (1-2 rounds), normally 75/100
             io.emit("serverMsg", 'Game Over, lowest score wins!');
           } else { // start the next round
             // started & turn get reset from started=false
