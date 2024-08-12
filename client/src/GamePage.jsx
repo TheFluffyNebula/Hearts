@@ -13,6 +13,7 @@ function GamePage() {
   for (let i = 0; i < 13; i++) {
     initArray.push(null);
   }
+  const [room, setRoom] = useState("");
   const [hand, setHand] = useState(initArray);
   const [center, setCenter] = useState([null, null, null, null])
   const [playerNum, setPlayerNum] = useState(-1);
@@ -22,6 +23,9 @@ function GamePage() {
   const [totalPts, setTotalPts] = useState([0, 0, 0, 0]);
 
   useEffect(() => {
+    function onRoomId(rId) {
+      setRoom(rId);
+    }
     function onDealHand(receivedHand) {
       console.log("[client] Hand received:", receivedHand);
       setHand(receivedHand);
@@ -59,7 +63,7 @@ function GamePage() {
       setTotalPts(tPts);
     }
 
-    // socket.on("roomId")
+    socket.on("roomId", onRoomId);
     socket.on("dealHand", onDealHand);
     socket.on("playerNum", onPlayerNum);
     socket.on("serverMsg", onServerMsg);
@@ -69,6 +73,7 @@ function GamePage() {
     socket.on("roundUpdate", onRoundUpdate);
     socket.on("scoreboardUpdate", onScoreboardUpdate);
     return () => {
+      socket.off("roomId", onRoomId);
       socket.off("dealHand", onDealHand);
       socket.off("playerNum", onPlayerNum);
       socket.off("serverMsg", onServerMsg);
@@ -95,7 +100,7 @@ function GamePage() {
     <div className="game-page">
       <CenterCards c={center} />
       <Hand cards={hand} onCardClick={handleCardClick} />
-      <PlayerInfo playerNum={playerNum} curPts={curPts} />
+      <PlayerInfo playerNum={playerNum} curPts={curPts} room={room} />
       <Scoreboard totalPts={totalPts} />
       <ServerMsg newMsg={serverMsg} playerMsg={playerMsg} />
     </div>

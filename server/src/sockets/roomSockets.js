@@ -40,8 +40,6 @@ export default (io) => {
 
     socket.on("join", (roomId) => {
       socket.join(roomId);
-      // let the client know the room id
-      io.emit("roomId", roomId);
       // Store roomId on the socket object
       socket.data.roomId = roomId;
       const result = roomUtils.joinRoom(roomId, socket.id);
@@ -64,6 +62,9 @@ export default (io) => {
     });
 
     socket.on("startGame", () => {
+      // let the client know the room id
+      io.emit("roomId", socket.data.roomId);
+
       // Generate and shuffle the deck
       const deck = generateDeck();
 
