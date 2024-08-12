@@ -22,6 +22,8 @@ breaking into hearts: server-side boolean
 show room code (probably w/ playerInfo)
 refactor roomSockets.js to maintain room-local variables
 refactor emits so that they only emit to the room
+1s sleep after last card
+glowing valid cards
 
 extra stuff (low prio or later):
 sleep for 1s after last card played, display who won the trick

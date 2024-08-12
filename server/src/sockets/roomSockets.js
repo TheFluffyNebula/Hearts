@@ -6,6 +6,7 @@ let hands = []
 let center = [null, null, null, null] // center cards
 // gameplay elements
 let started = false;
+let heartbreak = false;
 let turn = -1
 let totalPts = [0, 0, 0, 0]
 // reset these values to these after each round
@@ -82,29 +83,6 @@ export default (io) => {
       console.log('[server] Cards dealt to players');
     });
 
-    // socket.on("twoClubs", () => { // takes care of the very first card
-    //   // console.log(hands); // hands has 8 entries both times, not good
-    //   // console.log("2 Clubs", socket.id);
-    //   let idx = roomUtils.getPlayersInRoom(socket.data.roomId).indexOf(socket.id); // roomId accessible here???
-    //   // console.log(idx);
-    //   const newHand = roomUtils.playCard(
-    //     hands[idx], { suit: '♣', value: '2' });
-    //   // update the data with the new hand
-    //   hands[idx] = newHand;
-    //   // update the center cards
-    //   center[0] = { suit: '♣', value: '2' };
-    //   // console.log(center); // should be [{ suit: '♣', value: '2' }, null, null, null]
-    //   turn = (idx + 1) % 4; // rotate between 0 1 2 3 (add 1 in server turn message)
-    //   console.log("turn of player", turn + 1);
-    //   // now, re-render center for everyone, newHand for only the person who played it
-    //   // and finally the server message for whose turn it is
-    //   // io.emit("updateCenter", center);
-    //   // console.log(center);
-    //   io.emit("updateCenter", center);
-    //   io.to(socket.id).emit("updateHand", newHand);
-    //   io.emit("serverMsg", `Player ${turn + 1}'s Turn!`);
-    // });
-
     // 3 cases: first card (set suit), middle card (check suit), last card ()
     // TODO: implement breaking into hearts
     socket.on("playCard", (card) => {
@@ -122,18 +100,24 @@ export default (io) => {
       } else {
         // first check if the turn is valid
         // turn correctly stores whose turn it is so compare turn and players.indexOf(socket.id)
-        // include common check: suit
         if (turn != playerIdx) {
           // console.log("It's not your turn!");
           return;
         }
-        if (suit != "" && card.suit != suit) { // established suit + not matching + has suit
-          for (let i = 0; i < 13; i++) {
+        // include common check: suit
+        if (!heartbreak && card.suit == "♥") {
+          // console.log("Hearts not broken yet!");
+          return;
+        }
+        if (suit != "" && card.suit != suit) { // established suit + not matching
+          for (let i = 0; i < 13; i++) { // check for has suit
             if (hands[playerIdx][i] && hands[playerIdx][i].suit == suit) {
               // console.log("Play the suit if you have it.");
               return;
             }
           }
+          // player doesn't have the suit, can break hearts
+          if (card.suit == "♥") heartbreak = true;
           // not the suit but still valid, can't be highest though
           possibleHighest = false;
         }
@@ -203,6 +187,7 @@ export default (io) => {
             // started & turn get reset from started=false
             center = [null, null, null, null];
             started = false;
+            heartbreak = false;
             suit = "♣"
             highestValue = 0;
             highestId = "";
