@@ -24,14 +24,6 @@ function GamePage() {
     function onDealHand(receivedHand) {
       console.log("[client] Hand received:", receivedHand);
       setHand(receivedHand);
-      for (let i = 0; i < 13; i++) {
-        // to implement the swap phase, move this into another component after 'swap' event
-        if (receivedHand[i].suit === '♣' && receivedHand[i].value === '2') {
-          // 2 of clubs goes first, let the server know which player has it
-          socket.emit("twoClubs"); // server can see socket.id
-          console.log("2 clubs");
-        }
-      }
     }
 
     function onPlayerNum(n) {

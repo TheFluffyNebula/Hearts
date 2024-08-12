@@ -5,6 +5,7 @@ import { generateDeck } from "../utils/deck.js";
 let hands = []
 let center = [null, null, null, null] // center cards
 // gameplay elements
+let started = false;
 let turn = -1
 let totalPts = [0, 0, 0, 0]
 // reset these values to these after each round
@@ -55,6 +56,7 @@ export default (io) => {
         // TODO: here is a good spot to setup the room-specific data
         return; // don't go here twice
       }
+      // console.log("emitting joinStatus");
       io.to(socket.id).emit("joinStatus", result, roomId);
     });
 
@@ -80,51 +82,61 @@ export default (io) => {
       console.log('[server] Cards dealt to players');
     });
 
-    socket.on("twoClubs", () => { // takes care of the very first card
-      // console.log(hands); // hands has 8 entries both times, not good
-      // console.log("2 Clubs", socket.id);
-      let idx = roomUtils.getPlayersInRoom(socket.data.roomId).indexOf(socket.id); // roomId accessible here???
-      // console.log(idx);
-      const newHand = roomUtils.playCard(
-        hands[idx], { suit: '♣', value: '2' });
-      // update the data with the new hand
-      hands[idx] = newHand;
-      // update the center cards
-      center[0] = { suit: '♣', value: '2' };
-      // console.log(center); // should be [{ suit: '♣', value: '2' }, null, null, null]
-      turn = (idx + 1) % 4; // rotate between 0 1 2 3 (add 1 in server turn message)
-      console.log("turn of player", turn + 1);
-      // now, re-render center for everyone, newHand for only the person who played it
-      // and finally the server message for whose turn it is
-      // io.emit("updateCenter", center);
-      // console.log(center);
-      io.emit("updateCenter", center);
-      io.to(socket.id).emit("updateHand", newHand);
-      io.emit("serverMsg", `Player ${turn + 1}'s Turn!`);
-    });
+    // socket.on("twoClubs", () => { // takes care of the very first card
+    //   // console.log(hands); // hands has 8 entries both times, not good
+    //   // console.log("2 Clubs", socket.id);
+    //   let idx = roomUtils.getPlayersInRoom(socket.data.roomId).indexOf(socket.id); // roomId accessible here???
+    //   // console.log(idx);
+    //   const newHand = roomUtils.playCard(
+    //     hands[idx], { suit: '♣', value: '2' });
+    //   // update the data with the new hand
+    //   hands[idx] = newHand;
+    //   // update the center cards
+    //   center[0] = { suit: '♣', value: '2' };
+    //   // console.log(center); // should be [{ suit: '♣', value: '2' }, null, null, null]
+    //   turn = (idx + 1) % 4; // rotate between 0 1 2 3 (add 1 in server turn message)
+    //   console.log("turn of player", turn + 1);
+    //   // now, re-render center for everyone, newHand for only the person who played it
+    //   // and finally the server message for whose turn it is
+    //   // io.emit("updateCenter", center);
+    //   // console.log(center);
+    //   io.emit("updateCenter", center);
+    //   io.to(socket.id).emit("updateHand", newHand);
+    //   io.emit("serverMsg", `Player ${turn + 1}'s Turn!`);
+    // });
 
     // 3 cases: first card (set suit), middle card (check suit), last card ()
     // TODO: implement breaking into hearts
     socket.on("playCard", (card) => {
-      // first check if the turn is valid
-      // turn correctly stores whose turn it is so compare turn and players.indexOf(socket.id)
-      // include common check: suit
       const players = roomUtils.getPlayersInRoom(socket.data.roomId);
       const playerIdx = players.indexOf(socket.id);
-      if (turn != playerIdx) {
-        console.log("It's not your turn!");
-        return;
-      }
       let possibleHighest = true;
-      if (suit != "" && card.suit != suit) { // established suit + not matching + has suit
-        for (let i = 0; i < 13; i++) {
-          if (hands[playerIdx][i] && hands[playerIdx][i].suit == suit) {
-            console.log("Play the suit if you have it.");
-            return;
-          }
+      if (!started) {
+        if (card.suit == "♣" && card.value == "2") {
+          started = true;
+          turn = playerIdx;
+        } else {
+          console.log("Must start with 2 of clubs!");
+          return;
         }
-        // not the suit but still valid, can't be highest though
-        possibleHighest = false;
+      } else {
+        // first check if the turn is valid
+        // turn correctly stores whose turn it is so compare turn and players.indexOf(socket.id)
+        // include common check: suit
+        if (turn != playerIdx) {
+          // console.log("It's not your turn!");
+          return;
+        }
+        if (suit != "" && card.suit != suit) { // established suit + not matching + has suit
+          for (let i = 0; i < 13; i++) {
+            if (hands[playerIdx][i] && hands[playerIdx][i].suit == suit) {
+              // console.log("Play the suit if you have it.");
+              return;
+            }
+          }
+          // not the suit but still valid, can't be highest though
+          possibleHighest = false;
+        }
       }
       // valid turn, let's go!
       // common operation: play card
@@ -133,7 +145,7 @@ export default (io) => {
       // update the data with the new hand
       hands[playerIdx] = newHand;
       // differences: information changed, actions
-      if (suit == "") { // CASE 1: first card played
+      if (center[0] == null) { // CASE 1: first card played
         turn = (turn + 1) % 4;
         center[0] = card;
         suit = card.suit;
@@ -166,7 +178,7 @@ export default (io) => {
             roundPts += 13;
           }
         }
-        console.log(roundPts); // should be 0 for clubs round unless someone has a heart
+        // console.log(roundPts); // should be 0 for clubs round unless someone has a heart
         // update scores -- immediately for curRound and later for total vars?
         const winnerIdx = roomUtils.getPlayersInRoom(socket.data.roomId).indexOf(highestId)
         curPts[winnerIdx] += roundPts;
@@ -182,24 +194,30 @@ export default (io) => {
           }
           // update scoreboard for everyone
           io.emit("scoreboardUpdate", totalPts);
+          curPts = [0, 0, 0, 0]
+          io.to(highestId).emit("roundUpdate", curPts[winnerIdx]);
           // if someone is above x pts, end game & lowest amt wins
           if (Math.max(...totalPts) > 20) { // 10/20 right now for testing (1-2 rounds), normally 75/100
             io.emit("serverMsg", 'Game Over, lowest score wins!');
           } else { // start the next round
+            // started & turn get reset from started=false
             center = [null, null, null, null];
-            suit = "";
+            started = false;
+            suit = "♣"
             highestValue = 0;
             highestId = "";
+            io.emit("serverMsg", 'Round over!');
             io.to(socket.data.roomId).emit("nextRound");
           }
           return;
         }
         // reset the variables
-        turn = winnerIdx;
         center = [null, null, null, null];
+        turn = winnerIdx;
         suit = "";
         highestValue = 0;
         highestId = "";
+        
       }
       // same set of updates
       io.emit("updateCenter", center);
