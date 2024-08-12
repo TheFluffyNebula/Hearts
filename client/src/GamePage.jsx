@@ -59,6 +59,7 @@ function GamePage() {
       setTotalPts(tPts);
     }
 
+    // socket.on("roomId")
     socket.on("dealHand", onDealHand);
     socket.on("playerNum", onPlayerNum);
     socket.on("serverMsg", onServerMsg);

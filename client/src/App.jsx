@@ -28,7 +28,7 @@ function App() {
     function onFinalCheck(roomId) {
       console.log("[client] final ready check");
       navigate(`/room/${roomId}`);
-      socket.emit("startGame");
+      setTimeout(() => { socket.emit("startGame"); }, 2000);
     }
 
     function onNextRound() {
@@ -37,13 +37,15 @@ function App() {
     }
 
     socket.on("connect", onConnect);
-    socket.on("joinStatus", (status, roomId) => onJoin(status, roomId));
-    socket.on("finalCheck", (roomId) => onFinalCheck(roomId));
+    socket.on("joinStatus", onJoin);
+    // socket.on("finalCheck", (roomId) => onFinalCheck(roomId));
+    socket.on("finalCheck", onFinalCheck);
     socket.on("nextRound", onNextRound);
     return () => {
       socket.off("connect", onConnect);
       socket.off("joinStatus", onJoin);
-      socket.off("finalCheck", (roomId) => onFinalCheck(roomId));
+      // socket.off("finalCheck", (roomId) => onFinalCheck(roomId));
+      socket.off("finalCheck", onFinalCheck);
       socket.off("nextRound", onNextRound);
     };
   }, []);
