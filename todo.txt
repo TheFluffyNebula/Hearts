@@ -20,14 +20,13 @@ pt counts: displayed on React side, kept track of by server (DONE)
 breaking into hearts: server-side boolean (DONE)
 shooting the moon (DONE)
 player-specific messages (DONE)
+show room code (probably w/ playerInfo) (DONE)
+refactor emits so that they only emit to the room (DONE)
+1s sleep after last card (DONE, NOT TESTED)
 
-show room code (probably w/ playerInfo)
 refactor roomSockets.js to maintain room-local variables
-refactor emits so that they only emit to the room
-1s sleep after last card
 glowing valid cards
 
 extra stuff (low prio or later):
-sleep for 1s after last card played, display who won the trick
 passing 3 cards
 username updates
