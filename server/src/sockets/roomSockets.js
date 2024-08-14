@@ -226,6 +226,8 @@ export default (io) => {
         }
         io.to(socket.data.roomId).emit("updateCenter", center);
         io.to(socket.id).emit("updateHand", newHand);
+        // don't let anyone play while showing last cad
+        turn = -1
         // reset the variables
         setTimeout(() => {
           center = [null, null, null, null];
