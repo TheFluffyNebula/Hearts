@@ -1,8 +1,8 @@
 import React from "react";
 // attach listeners
-function HandCardSlot({ card, onClick }) {
+function HandCardSlot({ card, onClick, valid }) {
   return (
-    <div className="hand-card-slot" onClick={onClick}>
+    <div className={`hand-card-slot ${valid ? "valid-card" : ""}`} onClick={onClick}>
       {card ? (
         <>
           <div className={`card-suit ${card.suit}`}>{card.suit}</div>
@@ -12,6 +12,16 @@ function HandCardSlot({ card, onClick }) {
         <div className="empty-slot">Empty</div>
       )}
     </div>
+  //   <div className="hand-card-slot" onClick={onClick}>
+  //     {card ? (
+  //       <>
+  //         <div className={`card-suit ${card.suit}`}>{card.suit}</div>
+  //         <div className="card-rank">{card.value}</div>
+  //       </>
+  //     ) : (
+  //       <div className="empty-slot">Empty</div>
+  //     )}
+  //   </div>
   );
 }
 

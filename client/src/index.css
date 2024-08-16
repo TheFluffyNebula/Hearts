@@ -59,6 +59,11 @@
   justify-content: center;
 }
 
+.hand-card-slot.valid-card {
+  box-shadow: 0 0 15px 5px green;
+  border-color: green;
+}
+
 .card {
   position: relative;
   height: 100%;

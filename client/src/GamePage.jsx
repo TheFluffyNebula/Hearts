@@ -15,6 +15,7 @@ function GamePage() {
   }
   const [room, setRoom] = useState("");
   const [hand, setHand] = useState(initArray);
+  const [validCards, setValidCards] = useState([]);
   const [center, setCenter] = useState([null, null, null, null])
   const [playerNum, setPlayerNum] = useState(-1);
   const [serverMsg, setServerMsg] = useState("");
@@ -50,6 +51,10 @@ function GamePage() {
       setHand(newHand);
     }
 
+    function onValidCards(validCards) {
+      setValidCards(validCards);
+    }
+
     function onUpdateCenter(newCenter) {
       // console.log('center updated');
       setCenter(newCenter);
@@ -69,6 +74,7 @@ function GamePage() {
     socket.on("serverMsg", onServerMsg);
     socket.on("playerMsg", onPlayerMsg);
     socket.on("updateHand", onUpdateHand);
+    socket.on("validCards", onValidCards);
     socket.on("updateCenter", onUpdateCenter);
     socket.on("roundUpdate", onRoundUpdate);
     socket.on("scoreboardUpdate", onScoreboardUpdate);
@@ -79,6 +85,7 @@ function GamePage() {
       socket.off("serverMsg", onServerMsg);
       socket.off("playerMsg", onPlayerMsg);
       socket.off("updateHand", onUpdateHand);
+      socket.off("validCards", onValidCards);
       socket.off("updateCenter", onUpdateCenter);
       socket.off("roundUpdate", onRoundUpdate);
       socket.off("scoreboardUpdate", onScoreboardUpdate);
@@ -99,7 +106,7 @@ function GamePage() {
   return (
     <div className="game-page">
       <CenterCards c={center} />
-      <Hand cards={hand} onCardClick={handleCardClick} />
+      <Hand cards={hand} onCardClick={handleCardClick} validCards={validCards} />
       <PlayerInfo playerNum={playerNum} curPts={curPts} room={room} />
       <Scoreboard totalPts={totalPts} />
       <ServerMsg newMsg={serverMsg} playerMsg={playerMsg} />

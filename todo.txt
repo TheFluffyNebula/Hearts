@@ -1,6 +1,6 @@
 client side:
-split CardSlot into CenterCardSlot and HandCardSlot
-display currentPts, playerId, roomId
+split CardSlot into CenterCardSlot and HandCardSlot (DONE)
+display currentPts, playerId, roomId (DONE)
 frontend connects to backend port (here it's 3001)
 but what will it be when deployed? something like this link: wss://deploy-socketio-minimal-demo.onrender.com
 
@@ -22,11 +22,13 @@ shooting the moon (DONE)
 player-specific messages (DONE)
 show room code (probably w/ playerInfo) (DONE)
 refactor emits so that they only emit to the room (DONE)
-1s sleep after last card (DONE, NOT TESTED)
+1s sleep after last card (DONE)
+refactor roomSockets.js to maintain room-local variables (DONE)
 
-refactor roomSockets.js to maintain room-local variables
-glowing valid cards
+glowing valid cards (IN PROGRESS)
+roomwide clear followed by a single set (2 emits)
 
 extra stuff (low prio or later):
 passing 3 cards
+
 username updates
