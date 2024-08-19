@@ -24,11 +24,9 @@ show room code (probably w/ playerInfo) (DONE)
 refactor emits so that they only emit to the room (DONE)
 1s sleep after last card (DONE)
 refactor roomSockets.js to maintain room-local variables (DONE)
+glowing valid cards (DONE)
 
-glowing valid cards (IN PROGRESS)
-roomwide clear followed by a single set (2 emits)
+debug: rd pts not resetting to 0 -- endRound emit, separate for clarity
 
-extra stuff (low prio or later):
 passing 3 cards
-
 username updates

@@ -8,10 +8,13 @@ function PlayerInfo({ playerNum, curPts, room }) {
   const [rm, setRm] = useState("");
 
   useEffect(() => {
-    if (playerNum) { // only set if prop is present
+    if (playerNum) {
+      // only set if prop is present
       setPNum(playerNum);
     }
-    if (curPts) { // only set if prop is present
+    if (curPts) {
+      console.log("curPts updated!");
+      // only set if prop is present
       setRPts(curPts);
     }
     if (room) {

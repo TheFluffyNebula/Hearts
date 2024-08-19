@@ -16,7 +16,7 @@ function GamePage() {
   const [room, setRoom] = useState("");
   const [hand, setHand] = useState(initArray);
   const [validCards, setValidCards] = useState([]);
-  const [center, setCenter] = useState([null, null, null, null])
+  const [center, setCenter] = useState([null, null, null, null]);
   const [playerNum, setPlayerNum] = useState(-1);
   const [serverMsg, setServerMsg] = useState("");
   const [playerMsg, setPlayerMsg] = useState("");
@@ -60,8 +60,9 @@ function GamePage() {
       setCenter(newCenter);
     }
 
-    function onRoundUpdate(rPts) {
-      setCurPts(rPts);
+    function onRoundUpdate(rdPts) {
+      console.log("roundUpdate emit received!", curPts, "to", rdPts);
+      setCurPts(rdPts); // this line does get run but doesn't show on render
     }
 
     function onScoreboardUpdate(tPts) {
@@ -98,7 +99,7 @@ function GamePage() {
       console.log("No card here!");
       return;
     }
-    console.log(`Card clicked: ${card.suit} ${card.value}`);
+    // console.log(`Card clicked: ${card.suit} ${card.value}`);
     // Emit playCard
     socket.emit("playCard", card);
   };
@@ -106,7 +107,11 @@ function GamePage() {
   return (
     <div className="game-page">
       <CenterCards c={center} />
-      <Hand cards={hand} onCardClick={handleCardClick} validCards={validCards} />
+      <Hand
+        cards={hand}
+        onCardClick={handleCardClick}
+        validCards={validCards}
+      />
       <PlayerInfo playerNum={playerNum} curPts={curPts} room={room} />
       <Scoreboard totalPts={totalPts} />
       <ServerMsg newMsg={serverMsg} playerMsg={playerMsg} />
