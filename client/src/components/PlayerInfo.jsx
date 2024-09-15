@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 function PlayerInfo({ playerNum, curPts, room }) {
+  console.log("PlayerInfo re-rendered with curPts:", curPts); // Check if this logs
   // Initialize default player names and pt values
   const [pNum, setPNum] = useState(-1);
   const [rPts, setRPts] = useState(0);
@@ -12,11 +13,9 @@ function PlayerInfo({ playerNum, curPts, room }) {
       // only set if prop is present
       setPNum(playerNum);
     }
-    if (curPts) {
-      console.log("curPts updated!");
-      // only set if prop is present
-      setRPts(curPts);
-    }
+    // Remove the check for `curPts` so that it updates even when curPts is `0`
+    // console.log("curPts updated!", curPts);
+    setRPts(curPts);
     if (room) {
       setRm(room);
     }

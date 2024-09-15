@@ -25,8 +25,10 @@ refactor emits so that they only emit to the room (DONE)
 1s sleep after last card (DONE)
 refactor roomSockets.js to maintain room-local variables (DONE)
 glowing valid cards (DONE)
-
 debug: rd pts not resetting to 0 -- endRound emit, separate for clarity
 
+last one:
 passing 3 cards
+
+skipping: 
 username updates

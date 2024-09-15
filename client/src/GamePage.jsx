@@ -61,7 +61,7 @@ function GamePage() {
     }
 
     function onRoundUpdate(rdPts) {
-      console.log("roundUpdate emit received!", curPts, "to", rdPts);
+      // console.log("roundUpdate emit received!", rdPts);
       setCurPts(rdPts); // this line does get run but doesn't show on render
     }
 

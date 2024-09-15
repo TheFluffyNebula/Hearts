@@ -96,10 +96,7 @@ export default (io) => {
       const cardsPerPlayer = 13;
 
       // render the round pts to 0
-      for (let i = 0; i < 4; i++) {
-        // console.log("emit round update");
-        io.to(players[i]).emit("roundUpdate", 0);
-      }
+      io.to(rId).emit("roundUpdate", 0);
 
       let firstPlayer = -1; // make the 2 of clubs border glow green for the first player
       let cardLoc = -1; // 2 of clubs index in the hand
