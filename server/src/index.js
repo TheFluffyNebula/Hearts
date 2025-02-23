@@ -24,7 +24,7 @@ app.use(express.json());
 
 // Serve the frontend (React build)
 const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "client/dist")));
+app.use(express.static(path.join(__dirname, "client")));
 
 
 app.use("/api/rooms", roomRoutes);
@@ -33,7 +33,7 @@ roomSockets(io);
 
 // Handle any unknown routes and serve the frontend (React index.html)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/dist", "index.html"));
+  res.sendFile(path.join(__dirname, "client", "index.html"));
 });
 
 const PORT = process.env.PORT || 3001;
