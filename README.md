@@ -2,6 +2,8 @@
 
 Hearts
 
+Real time aspect (web sockets)
+
 4 players, when someone hits x pts (ex. 100) the game ends and the person with the lowest wins. 
 
 Each round:
